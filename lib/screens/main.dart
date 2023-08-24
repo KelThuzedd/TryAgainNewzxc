@@ -10,28 +10,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  final MainPage mainPage = MainPage();
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: mainPage,
-      routes: {
-        '/ageGroup': (context) => AgeGroupActivity(dataList: mainPage.dataList),
-        '/group2': (context) => Group2Activity(dataList: mainPage.dataList),
-
-
-        '/group2ToAgeGroup': (context) => AgeGroupActivity(dataList: mainPage.dataList), // Добавляем новый маршрут
-
-      },
-    );
-  }
-}
-
-
-class MainPage extends StatelessWidget {
   final DataService dataService = DataService();
-  late List<DataModel> dataList; // Store the dataList here
 
   @override
   Widget build(BuildContext context) {
@@ -39,33 +18,93 @@ class MainPage extends StatelessWidget {
       future: dataService.readData(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Scaffold(
-            appBar: AppBar(
-              title: Text('Main Activity'),
-            ),
-            body: Center(
-              child: CircularProgressIndicator(),
+          return MaterialApp(
+            home: Scaffold(
+              appBar: AppBar(
+                title: Text('Main Activity'),
+              ),
+              body: Center(
+                child: CircularProgressIndicator(),
+              ),
             ),
           );
         } else if (snapshot.hasError) {
-          return Scaffold(
-            appBar: AppBar(
-              title: Text('Main Activity'),
-            ),
-            body: Center(
-              child: Text('Error loading data.'),
+          return MaterialApp(
+            home: Scaffold(
+              appBar: AppBar(
+                title: Text('Main Activity'),
+              ),
+              body: Center(
+                child: Text('Error loading data.'),
+              ),
             ),
           );
         } else {
-          dataList = snapshot.data!;
-          return Scaffold(
-            appBar: AppBar(
-              title: Text('Main Activity'),
-            ),
-            body: DataList(dataList: dataList),
+          final dataList = snapshot.data!;
+
+          final arguments = AgeGroupArguments(
+            dataList: dataList,
+            forChildOrAdult: "0",
+            ageGroup: "Adult",
+          );
+
+          return MaterialApp(
+            home: MainPage(dataList: dataList, arguments: arguments),
+            routes: {
+              '/ageGroup': (context) => AgeGroupActivity(dataList: dataList, arguments: arguments),
+              '/group2': (context) => Group2Activity(dataList: dataList, arguments: arguments),
+            },
           );
         }
       },
     );
+  }
+}
+
+class MainPage extends StatefulWidget {
+  final List<DataModel> dataList;
+  final AgeGroupArguments arguments;
+
+  MainPage({required this.dataList, required this.arguments});
+
+  @override
+  _MainPageState createState() => _MainPageState();
+}
+
+class _MainPageState extends State<MainPage> {
+  int _selectedIndex = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Main Activity'),
+      ),
+      body: DataList(dataList: widget.dataList),
+      bottomNavigationBar: BottomNavigationBar(
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.school),
+            label: 'Научиться',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.warning),
+            label: 'Экстренная ситуация',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.lightbulb),
+            label: 'Это интересно',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+      ),
+    );
+  }
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
   }
 }

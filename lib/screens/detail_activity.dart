@@ -1,5 +1,19 @@
 import 'package:flutter/material.dart';
 import '../models/data_model.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart';
+import '../models/data_model.dart';
+
+
+final FlutterTts flutterTts = FlutterTts();
+bool isPlaying = false;
+
+Future<void> _speak(String text) async {
+  await flutterTts.setLanguage('ru-RU');
+  await flutterTts.setPitch(1.0);
+  await flutterTts.speak(text);
+}
+
 
 class DetailActivity extends StatelessWidget {
   final DataModel data;
@@ -24,8 +38,20 @@ class DetailActivity extends StatelessWidget {
             fit: BoxFit.contain,
             height: 200,
           ),
+          SizedBox(height: 16.0),
+          ElevatedButton(
+            onPressed: () {
+              if (!isPlaying) {
+                _speak(data.description);
+                isPlaying = true;
+              } else {
+                flutterTts.stop();
+                isPlaying = false;
+              }
+            },
+            child: Text(isPlaying ? 'Stop' : 'Play'),
+          ),
         ],
       ),
     );
-  }
-}
+  }}

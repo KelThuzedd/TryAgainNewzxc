@@ -5,8 +5,9 @@ import '../screens/age_group_activity.dart';
 
 class Group2Activity extends StatelessWidget {
   final List<DataModel> dataList;
+  final AgeGroupArguments arguments;
 
-  Group2Activity({required this.dataList});
+  Group2Activity({required this.dataList, required this.arguments});
 
   @override
   Widget build(BuildContext context) {
@@ -20,13 +21,23 @@ class Group2Activity extends StatelessWidget {
           children: [
             ElevatedButton(
               onPressed: () {
-                _navigateToAgeGroupActivity(context, "ForAdult", "Child");
+                final newArguments = AgeGroupArguments(
+                  dataList: arguments.dataList,
+                  forChildOrAdult: '1',
+                  ageGroup: "Child",
+                );
+                _navigateToAgeGroupActivity(context, newArguments);
               },
               child: Text('Помощь оказывается ребенку'),
             ),
             ElevatedButton(
               onPressed: () {
-                _navigateToAgeGroupActivity(context, "ForAdult", "Adult");
+                final newArguments = AgeGroupArguments(
+                  dataList: arguments.dataList,
+                  forChildOrAdult: '1',
+                  ageGroup: "Adult",
+                );
+                _navigateToAgeGroupActivity(context, newArguments);
               },
               child: Text('Помощь оказывается взрослому'),
             ),
@@ -35,29 +46,14 @@ class Group2Activity extends StatelessWidget {
       ),
     );
   }
-
-  void _navigateToAgeGroupActivity(BuildContext context, String forChildOrAdult, String ageGroup) {
-    print("Navigating to AgeGroupActivity with parameters: $forChildOrAdult, $ageGroup");
-
-    // Выводим содержимое dataList в консоль
-    print("Data in dataList:");
-    dataList.forEach((data) {
-      print("forChild: ${data.forChild} ageGroup: ${data.ageGroup}");
-      print("forChild: ${data.forChild}");
-      print("Filtered data count: ${forChildOrAdult}");
-      print("Filtered data count: ${ageGroup}");
-
-
-    });
-
-    final filteredData = dataList.where((data) =>  data.ageGroup == ageGroup).toList();
-    //data.forChild == forChildOrAdult &&
-    print("Filtered data count: ${filteredData.length}");
+  void _navigateToAgeGroupActivity(BuildContext context, AgeGroupArguments newArguments) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => AgeGroupActivity(dataList: filteredData),
+        builder: (context) => AgeGroupActivity(
+          dataList: arguments.dataList,
+          arguments: newArguments,
+        ),
       ),
     );
-  }
-}
+  }}

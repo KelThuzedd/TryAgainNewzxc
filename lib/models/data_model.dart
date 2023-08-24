@@ -17,3 +17,14 @@ class DataModel {
     required this.forChild,
   });
 }
+class AgeGroupArguments {
+  final List<DataModel> dataList;
+  final String forChildOrAdult;
+  final String ageGroup;
+
+  AgeGroupArguments({
+    required this.dataList,
+    required this.forChildOrAdult,
+    required this.ageGroup,
+  });
+}
