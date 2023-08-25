@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tryagainnew/screens/data_list.dart';
-import '../models/data_model.dart'; // Import DataModel
+import '../models/data_model.dart';
 import '../screens/age_group_activity.dart';
 
 class Group2Activity extends StatelessWidget {
@@ -16,36 +15,65 @@ class Group2Activity extends StatelessWidget {
         title: Text('Group 2 Activity'),
       ),
       body: Center(
-        child: Column(
+        child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ElevatedButton(
-              onPressed: () {
-                final newArguments = AgeGroupArguments(
-                  dataList: arguments.dataList,
-                  forChildOrAdult: '1',
-                  ageGroup: "Child",
-                );
-                _navigateToAgeGroupActivity(context, newArguments);
-              },
-              child: Text('Помощь оказывается ребенку'),
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.only(right: 8.0),
+                child: FloatingActionButton.extended(
+                  onPressed: () {
+                    final newArguments = AgeGroupArguments(
+                      dataList: arguments.dataList,
+                      forChildOrAdult: '1',
+                      ageGroup: "Child",
+                    );
+                    _navigateToAgeGroupActivity(context, newArguments);
+                  },
+                  label: Text('For Childs'),
+                  icon: Icon(Icons.person),
+                ),
+              ),
             ),
-            ElevatedButton(
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.only(left: 8.0),
+                child: FloatingActionButton.extended(
+                  onPressed: () {
+                    final newArguments = AgeGroupArguments(
+                      dataList: arguments.dataList,
+                      forChildOrAdult: '1',
+                      ageGroup: "Adult",
+                    );
+                    _navigateToAgeGroupActivity(context, newArguments);
+                  },
+                  label: Text('For Adults'),
+                  icon: Icon(Icons.group),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        color: Color(0xFF517398), // Установите нужный цвет фона здесь
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            IconButton(
+              color: Colors.white, // Установите цвет иконки здесь
+
+              icon: Icon(Icons.home),
               onPressed: () {
-                final newArguments = AgeGroupArguments(
-                  dataList: arguments.dataList,
-                  forChildOrAdult: '1',
-                  ageGroup: "Adult",
-                );
-                _navigateToAgeGroupActivity(context, newArguments);
+                Navigator.popUntil(context, ModalRoute.withName('/'));
               },
-              child: Text('Помощь оказывается взрослому'),
             ),
           ],
         ),
       ),
     );
   }
+
   void _navigateToAgeGroupActivity(BuildContext context, AgeGroupArguments newArguments) {
     Navigator.push(
       context,
@@ -56,4 +84,5 @@ class Group2Activity extends StatelessWidget {
         ),
       ),
     );
-  }}
+  }
+}

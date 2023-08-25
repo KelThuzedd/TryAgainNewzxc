@@ -31,85 +31,80 @@ class _DataListState extends State<DataList> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        AppBar(
-          automaticallyImplyLeading: false,
-          title: TextField(
-            controller: _searchController,
-            onChanged: _filterData,
+    return Scaffold(
+      appBar: AppBar(
+        title: isSearching
+            ? TextField(
+          controller: _searchController,
+          onChanged: _filterData,
+          decoration: InputDecoration(
+            hintText: 'Search...',
+          ),
+        )
+            : Text('Data List',        style: Theme.of(context).textTheme.bodyText2,),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.search),
+            onPressed: () {
+              setState(() {
+                isSearching = !isSearching;
+              });
+            },
+          ),
+        ],
+      ),
+      body: isSearching
+          ? ListView.builder(
+        itemCount: filteredList.length,
+        itemBuilder: (context, index) {
+          final data = filteredList[index];
+          return ListTile(
+            title: Text(data.name,        style: Theme.of(context).textTheme.bodyText2,),
             onTap: () {
-              setState(() {
-                isSearching = true;
-              });
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => DetailActivity(data: data),
+                ),
+              );
             },
-            onSubmitted: (value) {
-              setState(() {
-                isSearching = false;
-              });
-            },
-            decoration: InputDecoration(
-              hintText: 'Search...',
-            ),
-          ),
-          actions: [
-            if (isSearching)
-              IconButton(
-                icon: Icon(Icons.clear),
-                onPressed: () {
-                  _searchController.clear();
-                  _filterData('');
-                  setState(() {
-                    isSearching = false;
-                  });
-                },
+          );
+        },
+      )
+          : Center(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.only(right: 8.0),
+                  child: FloatingActionButton.extended(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/ageGroup', arguments: "Child");
+                    },
+                    label: Text('Child'),
+                    icon: Icon(Icons.person),
+                  ),
+                ),
               ),
-          ],
-        ),
-        Visibility(
-          visible: !isSearching,
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                FloatingActionButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/group2',arguments: "Adult");
-                  },
-                  child: Icon(Icons.group),
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.only(left: 8.0),
+                  child: FloatingActionButton.extended(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/group2', arguments: "Adult");
+                    },
+                    label: Text('Adult'),
+                    icon: Icon(Icons.group),
+                  ),
                 ),
-                SizedBox(height: 16.0),
-                FloatingActionButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/ageGroup',arguments: "Child");
-                  },
-                  child: Icon(Icons.person),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
-        if (isSearching)
-          Expanded(
-            child: ListView.builder(
-              itemCount: filteredList.length,
-              itemBuilder: (context, index) {
-                final data = filteredList[index];
-                return ListTile(
-                  title: Text(data.name),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => DetailActivity(data: data),
-                      ),
-                    );
-                  },
-                );
-              },
-            ),
-          ),
-      ],
+      ),
     );
   }
 

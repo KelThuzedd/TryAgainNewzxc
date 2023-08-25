@@ -14,39 +14,26 @@ class AgeGroupActivity extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final String ageGroupArgument = arguments.ageGroup;
-    final  forChildOrAdultArgument = arguments.forChildOrAdult;
+    final forChildOrAdultArgument = arguments.forChildOrAdult;
 
-    print('AgeGroupActivity: Build');
-    print('AgeGroupActivity: dataList length: ${dataList.length}');
-    dataList.forEach((data) {
-      print('Data forChild: ${data.forChild}');
-    });
     final filteredData = dataList.where(
-            (data) =>
-        int.parse(data.forChild) == int.parse(forChildOrAdultArgument)
-                &&    data.ageGroup == ageGroupArgument
-
+          (data) =>
+      int.parse(data.forChild) == int.parse(forChildOrAdultArgument) &&
+          data.ageGroup == ageGroupArgument,
     ).toList();
-
-    print('AgeGroupActivity: filteredData length: ${filteredData.length}');
-    print('AgeGroupActivity: dataList ageGroupArgument: ${ageGroupArgument}');
-    print('AgeGroupActivity: dataList forChildOrAdultArgument: ${forChildOrAdultArgument}');
-    print('Type of data.forChild: ${dataList[0].forChild.runtimeType}');
-    print('Type of forChildOrAdultArgument: ${forChildOrAdultArgument.runtimeType}');
-
 
     return Scaffold(
       appBar: AppBar(
         title: Text('Age Group Activity'),
       ),
       body: ListView.builder(
+
         itemCount: filteredData.length,
         itemBuilder: (context, index) {
           final data = filteredData[index];
           return ListTile(
-            title: Text(data.name),
+            title: Text(data.name,style: Theme.of(context).textTheme.bodyText2,),
             onTap: () {
               Navigator.push(
                 context,
@@ -57,6 +44,23 @@ class AgeGroupActivity extends StatelessWidget {
             },
           );
         },
+      ),
+      bottomNavigationBar: BottomAppBar(
+        color: Color(0xFF517398), // Установите нужный цвет фона здесь
+
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            IconButton(
+              color: Colors.white, // Установите цвет иконки здесь
+
+              icon: Icon(Icons.home),
+              onPressed: () {
+                Navigator.popUntil(context, ModalRoute.withName('/'));
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

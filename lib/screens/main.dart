@@ -4,6 +4,7 @@ import '../screens/age_group_activity.dart';
 import '../screens/group2_activity.dart';
 import '../screens/data_list.dart';
 import '../data_service.dart';
+import '../styles.dart'; // Import the styles.dart file
 
 void main() {
   runApp(MyApp());
@@ -49,6 +50,7 @@ class MyApp extends StatelessWidget {
           );
 
           return MaterialApp(
+            theme: myTheme, // Apply your custom theme
             home: MainPage(dataList: dataList, arguments: arguments),
             routes: {
               '/ageGroup': (context) => AgeGroupActivity(dataList: dataList, arguments: arguments),
@@ -77,9 +79,6 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Main Activity'),
-      ),
       body: DataList(dataList: widget.dataList),
       bottomNavigationBar: BottomNavigationBar(
         items: [
