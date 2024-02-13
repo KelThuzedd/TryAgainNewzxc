@@ -10,7 +10,7 @@ class DataService {
     final lines = await rootBundle.loadString('assets/data.txt');
     final dataLines = lines.split('\n');
     for (final line in dataLines) {
-      final columns = line.split(';');
+      final columns = line.split('///');
       if (columns.length >= 6) {
         final data = DataModel(
           id: columns[0],
@@ -19,7 +19,17 @@ class DataService {
           ageGroup: columns[3],
           imageName: columns[4],
           forChild: columns[5],
+          voicetext: columns[6],
+
         );
+        // Выводим содержимое каждой колонки
+        print('ID: ${data.id}');
+        print('Name: ${data.name}');
+        print('Description: ${data.description}');
+        print('Age Group: ${data.ageGroup}');
+        print('Image Name: ${data.imageName}');
+        print('For Child: ${data.forChild}');
+        print('Voice Text: ${data.voicetext}');
         dataList.add(data);
       }
     }

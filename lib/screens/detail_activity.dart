@@ -95,7 +95,7 @@ class _DetailActivityState extends State<DetailActivity> {
           Padding(
             padding: EdgeInsets.symmetric(vertical: 8.0),
             child: Image.asset(
-              'assets/${widget.data.imageName}.jpg',
+              '${widget.data.imageName}.jpg',
               fit: BoxFit.contain,
               height: 200,
               errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
@@ -111,7 +111,7 @@ class _DetailActivityState extends State<DetailActivity> {
           ElevatedButton(
             onPressed: () {
               if (!isPlaying) {
-                _speak(widget.data.description);
+                _speak(widget.data.voicetext);
                 setState(() {
                   isPlaying = true;
                 });

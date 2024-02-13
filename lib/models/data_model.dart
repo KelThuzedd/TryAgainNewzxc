@@ -7,6 +7,7 @@ class DataModel {
   final String ageGroup;
   final String imageName;
   final String forChild;
+  final String voicetext;
 
   DataModel({
     required this.id,
@@ -15,6 +16,7 @@ class DataModel {
     required this.ageGroup,
     required this.imageName,
     required this.forChild,
+    required this.voicetext,
   });
 }
 class AgeGroupArguments {

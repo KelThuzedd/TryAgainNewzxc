@@ -11,6 +11,7 @@ dependencies:
   flutter_tts: ^3.0.0
   flutter:
     sdk: flutter
+  csv: ^5.0.2  # Библиотека для работы с CSV
   cupertino_icons: ^1.0.2
 
 dev_dependencies:
@@ -21,7 +22,10 @@ dev_dependencies:
 flutter:
   assets:
     - assets/data.txt
+    - assets/data2.txt
+    - assets/data2.csv
     - assets/default_image.jpg
+
 
 
   uses-material-design: true

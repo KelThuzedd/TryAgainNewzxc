@@ -3,7 +3,8 @@ import '../models/data_model.dart';
 import '../screens/age_group_activity.dart';
 import '../screens/group2_activity.dart';
 import '../screens/data_list.dart';
-import '../data_service.dart';
+import 'package:tryagainnew/data_service.dart';
+
 import '../styles.dart'; // Import the styles.dart file
 
 void main() {

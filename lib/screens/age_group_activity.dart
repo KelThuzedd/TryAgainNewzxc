@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../models/data_model.dart';
 import '../screens/detail_activity.dart'; // Import DetailActivity
 import '../screens/group2_activity.dart'; // Import Group2Activity and AgeGroupArguments
-
+import '../screens/AnotherActivity.dart';
 class AgeGroupActivity extends StatelessWidget {
   final List<DataModel> dataList;
   final AgeGroupArguments arguments;
@@ -33,16 +33,19 @@ class AgeGroupActivity extends StatelessWidget {
         itemBuilder: (context, index) {
           final data = filteredData[index];
           return ListTile(
-            title: Text(data.name,style: Theme.of(context).textTheme.bodyText2,),
+            title: Text(data.name, style: Theme.of(context).textTheme.bodyText2),
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => DetailActivity(data: data),
-                ),
-              );
+              MaterialPageRoute route;
+              if (data.id == '15') {
+                route = MaterialPageRoute(builder: (context) => AnotherActivity(dataList: dataList));
+              } else {
+                route = MaterialPageRoute(builder: (context) => DetailActivity(data: data));
+              }
+
+              Navigator.push(context, route);
             },
           );
+
         },
       ),
       bottomNavigationBar: BottomAppBar(
